@@ -42,3 +42,14 @@ stages:
     variable_group: ${{ parameters.variable_group }}
     agent_pool: ${{ parameters.agent_pool }}
     update_type: ${{ parameters.update_type }}
+
+- stage: InstallPwsh
+  condition: and(succeeded(), in('${{ parameters.image_type }}', 'ubuntu2004', 'ubuntu2204'))
+  jobs:
+  - job: InstallPowershell
+    pool:
+      name: ${{ parameters.agent_pool }}
+    steps:
+    - checkout: self
+    - script: ./install-pwsh.ps1
+      displayName: Install PowerShell Core
