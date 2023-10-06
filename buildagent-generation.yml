@@ -35,23 +35,6 @@ parameters:
 trigger: none
 
 stages:
-- stage: InstallPwsh
-  jobs:
-  - job: InstallPowershell
-    pool:
-      name: ${{ parameters.agent_pool }}
-    steps:
-    - checkout: self
-    - ${{ if in(parameters.image_type, 'ubuntu2004', 'ubuntu2204') }}:
-      - script: |
-          sudo apt-get update
-          sudo apt-get install -y powershell
-        displayName: Install PowerShell Core on Ubuntu
-    - ${{ if in(parameters.image_type, 'windows2019', 'windows2022') }}:
-      - powershell: |
-          choco install powershell-core -y
-        displayName: Install PowerShell Core on Windows
-
 - template: buildagent-generation-template.yml
   parameters: 
     image_type: ${{ parameters.image_type }}
